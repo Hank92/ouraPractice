@@ -35,11 +35,11 @@ mongoose.connect(configDB.url);
 	app.set('views', path.normalize(__dirname) + '/views/html');
 	app.set('view engine', 'html')
 	app.set('view engine', 'ejs'); //set up ejs for templating
-
+app.set('port', (process.env.PORT || 5000));
 // routes ======================================================================
 require('./app/routes.js')(app,passport); // load our routes and pass in our app
 
 //start the server
-app.listen(3000, function(){
-	console.log('Its running');
-})
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
