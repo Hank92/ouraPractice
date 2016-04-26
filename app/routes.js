@@ -37,7 +37,7 @@ app.post('/:id', function (req, res){
 		item[0].userComments.push({userPost : req.body.userPost})
 		item[0].save(function(err, data){
 			if (err) res.send(err)
-			else res.redirect('/humor_board/' +req.params.id)
+			else res.redirect('/' +req.params.id)
 		});
 	})
 
