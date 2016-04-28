@@ -199,6 +199,3 @@ request('http://issuein.com/', function(err, res, body){
 	}//첫 if구문
 
 });
-
-
-
