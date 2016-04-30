@@ -27,11 +27,6 @@ mongoose.connect(configDB.url);
 	app.use(cookieParser());
 	app.use(methodOverride());
 
-	app.use(session({ secret: 'iloveyousomuchtodeath' })); // session secret	app.use(passport.initialize());
-	app.use(passport.initialize());
-	app.use(passport.session());
-	app.use(flash());
-
 	app.set('views', path.normalize(__dirname) + '/views/html');
 	app.set('view engine', 'html')
 	app.set('view engine', 'ejs'); //set up ejs for templating
