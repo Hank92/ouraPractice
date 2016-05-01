@@ -31,7 +31,7 @@ app.get('/:id', function(req, res){
 });
 
 //post a comment on humor board
-app.post('/:id', function (req, res){
+app.post('/:id/post', function (req, res){
 	postModel.find({_id: req.params.id}, function(err, item){
 		if(err) return next("error finding blog post.");
 		item[0].userComments.push({userPost : req.body.userPost})
@@ -49,7 +49,7 @@ app.get('/', function (req, res){
 	if (typeof req.query.page !== 'undefined') {
         currentPage = +req.query.page;
     	}
-			postModel.paginate({}, {sort: {"_id":-1}, page: currentPage, limit: 9 }, function(err, results) {
+			postModel.paginate({}, {sort: {"_id":-1}, page: currentPage, limit: 10 }, function(err, results) {
          if(err){
          console.log("error");
          console.log(err);

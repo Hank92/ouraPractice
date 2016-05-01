@@ -8,6 +8,7 @@
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="imagetoolbar" content="no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name='keyword' content="하루, 즐거움, 짤, hazzul, 웃긴">
     <link rel='stylesheet' href='/css/individualhumor_board.css'>
 </head>
@@ -40,7 +41,7 @@
 <div class="panel panel-primary" >
 <div class="panel-heading"><font size = "5">댓글 달기</font></div>
         <div class ="panel-body">
-<form role="form" method="post" action="/humor_board/<%= postModel.id %>"> <!--This was the main issue!! get the id of the postmodel and pass it when I post something-->
+<form role="form" method="post" action="/<%= postModel.id %>/post"> <!--This was the main issue!! get the id of the postmodel and pass it when I post something-->
     <div class="form-group">
       <textarea class="form-control" type = "text" name="userPost" placeholder="댓글 달아주세요" rows="3" id="comment"></textarea>
     </div>
@@ -57,12 +58,11 @@
 <% }%>
   <% for( var i = 0; i < postModel.comments.length; i++ ) { %>
     
-                           <p>   <font size ="5" color="#FFFFFF"><%= postModel.comments[i].content %></p>
-                              </font>
-                            
-                   <% } %>      
+           <p>   <font size ="5" color="#FFFFFF"><%= postModel.comments[i].content %></p>
+              </font>
+            
+   <% } %>      
                        
-       
 </div>
 </div>
 
