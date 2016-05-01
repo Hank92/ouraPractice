@@ -1,6 +1,7 @@
 @media (min-width: 768px){
   .affix-content .container {
-    width: 700px;
+    width: 1000px;
+    overflow: auto;
   }   
 
   html,body{
@@ -78,14 +79,14 @@ h7 {
 
 .thumbnail {
    width: 160px;
-   height: 300px;
+   height: 190px;
    overflow: auto;
    margin: 20px;
  }
 
 .thumbnail > img {
-   width: 200px;
-   height: 200px;
+   width: 100px;
+   height: 80px;
  }
 
 

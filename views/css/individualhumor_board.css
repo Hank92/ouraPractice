@@ -11,3 +11,6 @@
 .panel .panel-body {
    background-color:#333333;
 }
+ .media{
+    border-bottom: 1px dotted #ccc;
+}

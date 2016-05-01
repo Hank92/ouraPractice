@@ -9,6 +9,7 @@
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="imagetoolbar" content="no" />
+    <meta name="naver-site-verification" content="8672f68ec19974757430dcc41aa887462bd2a8c5"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name='keyword' content="하루, 즐거움, 짤, hazzul, 웃긴">
     
@@ -20,21 +21,20 @@
   <div class="col-sm-12 col-md-12 affix-content">
     <div class="container">
       
-    <div>
+    <header>
       <h1><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;Hazzul </h1>
-    </div>
+    </header>
 
    
            <!-- LOCAL INFORMATION -->
             <div class="row">
 
        <% for(var i = postModels.length-1; i > -1 ; i--) { %>
-    
             <a class="thumbnail" href="/<%= postModels[i].id %>">
 
                 <img class="img-responsive" src="<%= postModels[i].image_url[0] %>" alt="이미지 로딩중..."></br>
                 <div class="text-center">
-                  <h5>(H) <%= postModels[i].title %></h5>
+                  <h5><%= postModels[i].title %></h5>
                 </div>
             </a>
        <% }%>

@@ -37,7 +37,6 @@
 <div class="col-sm-12">
 <div class="comments-list">
 
-
 <div class="panel panel-primary" >
 <div class="panel-heading"><font size = "5">댓글 달기</font></div>
         <div class ="panel-body">
@@ -49,26 +48,26 @@
   </form>
         </div>
   </div>
-<div class="panel panel-primary">
-<div class="panel-heading"><font size = "5">댓글</font></div>
-  <div class="panel-body">
-  <% for( var i = 0; i < postModel.userComments.length; i++ ) { %>
-            <p><font size ="5" color = "#FFFFFF"><%= postModel.userComments[postModel.userComments.length-i-1].userPost %></font></p>
 
-<% }%>
-  <% for( var i = 0; i < postModel.comments.length; i++ ) { %>
+<div class="panel panel-primary">
+<div class="panel-heading"><font size = "5">댓글 <%= postModel.comments.length + postModel.userComments.length %></font></div>
+  <div class="panel-body">
     
+  <% for( var i = 0; i < postModel.userComments.length; i++ ) { %>
+  <div class ="media">
+            <p><font size ="5" color = "#FFFFFF"><%= postModel.userComments[postModel.userComments.length-i-1].userPost %></font></p>
+</div>
+<% }%>
+
+  <% for( var i = 0; i < postModel.comments.length; i++ ) { %>
+    <div class ="media">
            <p>   <font size ="5" color="#FFFFFF"><%= postModel.comments[i].content %></p>
               </font>
-            
+            </div>
    <% } %>      
-                       
+
 </div>
 </div>
-
- 
-
-   
             
 </div>
 </div>

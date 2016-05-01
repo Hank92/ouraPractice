@@ -5,7 +5,6 @@ var cheerio = require('cheerio');
 var mongoose = require('mongoose');
 var	methodOverride = require('method-override');
 
-
 var postModel = require('../app/models/post');
 
 module.exports = function (app, passport){
@@ -21,11 +20,8 @@ app.param('id', function(req, res, next, id){
 			});	
 });
 
-
 app.get('/:id', function(req, res){
 	var postId = req.postId;
-	postId.userComments.push({ userPost: req.query.userPost});
-	postId.save();
 	res.render('individualHumor_Board.ejs', {postModel: postId});
 	console.log(postId)//finds the matching object
 });
@@ -37,7 +33,8 @@ app.post('/:id/post', function (req, res){
 		item[0].userComments.push({userPost : req.body.userPost})
 		item[0].save(function(err, data){
 			if (err) res.send(err)
-			else res.redirect('/' +req.params.id)
+			else 
+				res.redirect('/' + req.params.id )
 		});
 	})
 
