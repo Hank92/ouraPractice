@@ -6,8 +6,33 @@ var mongoose = require('mongoose');
 var	methodOverride = require('method-override');
 
 var postModel = require('../app/models/post');
+var issueModel = require('../app/models/issuePost');
+var ruliModel = require('../app/models/ruliWeb');
 
 module.exports = function (app, passport){
+
+
+app.param('id', function(req, res, next, id){
+	issueModel.findById(id, function(err, docs){
+		if(err) res.json(err);
+		else
+			{
+				req.postId = docs;
+				next();
+			}
+			});	
+});
+
+app.get('/:id', function(req, res){
+	postModel.find({_id: req.params.id}, function(err, docs){
+		if(err) res.json(err);
+		else    res.render('individualhazzulMain.ejs', {postModel: docs[0]});
+	})
+	
+	console.log(docs[0])//finds the matching object
+});
+
+/*
 
 app.param('id', function(req, res, next, id){
 	postModel.findById(id, function(err, docs){
@@ -19,13 +44,13 @@ app.param('id', function(req, res, next, id){
 			}
 			});	
 });
-
-app.get('/:id', function(req, res){
+*/
+app.get('/issuein/:id', function(req, res){
 	var postId = req.postId;
-	res.render('individualHumor_Board.ejs', {postModel: postId});
+	res.render('individualissueIn.ejs', {issuepostModel: postId});
 	console.log(postId)//finds the matching object
 });
-
+/*
 //post a comment on humor board
 app.post('/:id/post', function (req, res){
 	postModel.find({_id: req.params.id}, function(err, item){
@@ -39,7 +64,20 @@ app.post('/:id/post', function (req, res){
 	})
 
 }) //app.post  
+*/
+app.post('/:id/post/Issue', function (req, res){
+	issueModel.find({_id: req.params.id}, function(err, item){
+		if(err) return next("error finding blog post.");
+		item[0].userComments.push({userPost : req.body.userPost})
+		item[0].save(function(err, data){
+			if (err) res.send(err)
+			else 
+				res.redirect('/issuein/'+req.params.id )
+		});
+	})
 
+}) //app.post  
+/*
 app.get('/', function (req, res){
 
 	var currentPage = 1;
@@ -57,8 +95,39 @@ app.get('/', function (req, res){
     	    totalPosts = results.total;
     	console.log(results.docs)
 
-    	res.render('humor_board.ejs', {
+    	res.render('hazzulMain.ejs', {
     		postModels: results.docs,
+    		pageSize: pageSize,
+    		pageCount: pageCount,
+    		totalPosts: totalPosts,
+    		currentPage: currentPage
+    	})//res.render
+     }//else
+     });//paginate
+	
+});
+*/
+
+
+app.get('/issuein', function (req, res){
+
+	var currentPage = 1;
+	if (typeof req.query.page !== 'undefined') {
+        currentPage = +req.query.page;
+    	}
+		issueModel.paginate({}, {sort: {"_id":-1}, page: currentPage, limit: 10 }, function(err, results) {
+         if(err){
+         console.log("error!!");
+         console.log(err);
+     } else {
+    	    pageSize = results.limit;
+            pageCount = (results.total)/(results.limit);
+    		pageCount = Math.ceil(pageCount);
+    	    totalPosts = results.total;
+    	console.log(results.docs)
+
+    	res.render('issuein.ejs', {
+    		issuepostModels: results.docs,
     		pageSize: pageSize,
     		pageCount: pageCount,
     		totalPosts: totalPosts,
@@ -70,7 +139,7 @@ app.get('/', function (req, res){
 });
 
 };
-
+/*
 request('http://bhu.co.kr/bbs/board.php?bo_table=best&page=1', function(err, res, body){
 	
 	if(!err && res.statusCode == 200) {
@@ -138,7 +207,7 @@ request('http://bhu.co.kr/bbs/board.php?bo_table=best&page=1', function(err, res
 	}//첫 if구문
 
 });
-
+/*
 request('http://bbs2.ruliweb.daum.net/gaia/do/ruliweb/default/etc/2078/list?bbsId=G005&pageIndex=1&itemId=143&objCate1=497', function(err, res, body){
 	
 	if(!err && res.statusCode == 200) {
@@ -173,7 +242,7 @@ request('http://bbs2.ruliweb.daum.net/gaia/do/ruliweb/default/etc/2078/list?bbsI
 				if (!newPosts.length){
 					//save data in Mongodb
 
-					var Post = new postModel({
+					var Post = new ruliModel({
 						title: ruliTitle,
 						url: ruliUrl,
 						image_url: image_url,
@@ -203,46 +272,42 @@ request('http://bbs2.ruliweb.daum.net/gaia/do/ruliweb/default/etc/2078/list?bbsI
 	}//첫 if구문
 
 });
-
-
 /*
-request('http://www.ppomppu.co.kr/zboard/zboard.php?id=humor', function(err, res, body){
+request('http://ruliweb.daum.net/gallery/hit/article.daum', function(err, res, body){
 	
 	if(!err && res.statusCode == 200) {
 		
 		var $ = cheerio.load(body);
-		$('td.list_vspace').each(function(){
-		var ppompuTitle = $(this).find('a font').text();
-		var newHref = $(this).find('a').attr('href');
-		var ppompuUrl = "http://www.ppomppu.co.kr/zboard/"+ newHref;
+		$('td.subject').each(function(){
+		var ruliTitle = $(this).find('a').text();
+		var ruliUrl= $(this).find('a').attr('href');
 	 	
-	 	console.log(ppomppuTitle);
-	 	console.log(ppomppuUrl);
-			request(ppompuUrl, function(err, res, body){
+			request(ruliUrl, function(err, res, body){
 				if(!err && res.statusCode == 200) {
 				var $ = cheerio.load(body);
 				var comments = [];
 				var image_url = [];
 
-				$('#realArticleView p img').each(function(){
-					var img_url = $(this).attr('src');
+				$('.read_cont_table p').each(function(){
+					var img_url = $(this).find('img').attr('src');
 					image_url.push(img_url);	
 				})
 				// scrape all the images for the post
 				
-					$(".han").each(function(){
-						var content =  $(this).text();
+					$("#commentTable").each(function(){
+						var content =  $(this).find('td.cont').text();
 							comments.push({content: content}); 	
 					})//scrape all the comments for the post
 
-			postModel.find({title: ppompuTitle}, function(err, newPosts){
+
+			postModel.find({title: ruliTitle}, function(err, newPosts){
 				
 				if (!newPosts.length){
 					//save data in Mongodb
 
-					var Post = new postModel({
-						title: ppompuTitle,
-						url: ppompuUrl,
+					var Post = new ruliModel({
+						title: ruliTitle,
+						url: ruliUrl,
 						image_url: image_url,
 						comments: comments
 					})
@@ -271,6 +336,9 @@ request('http://www.ppomppu.co.kr/zboard/zboard.php?id=humor', function(err, res
 
 });
 */
+
+
+
 request('http://issuein.com/', function(err, res, body){
 	
 	if(!err && res.statusCode == 200) {
@@ -293,16 +361,85 @@ request('http://issuein.com/', function(err, res, body){
 
 
 				// scrape all the images for the post
-				postModel.find({title: issueTitle}, function(err, newPosts){
+				issueModel.find({title: issueTitle}, function(err, newPosts){
+				
+				if (!newPosts.length){
+					//save data in Mongodb
+
+					var issuePost = new issueModel({
+						title: issueTitle,
+						url: issueUrl,
+						img_url: image_url
+					
+					})
+			issuePost.save(function(error){
+					if(error){
+						console.log(error);
+					}
+					else 
+						console.log(issuePost);
+				})
+
+			//post.save
+				}//if bhuTitle안에 있는 {}
+
+			})//postModel.find
+			
+
+			}//if문
+
+			})//request
+
+			
+		});
+		
+	}//첫 if구문
+
+});
+
+/*
+request('http://bhu.co.kr/bbs/board.php?bo_table=free', function(err, res, body){
+	
+	if(!err && res.statusCode == 200) {
+		
+		var $ = cheerio.load(body);
+		$('td.subject').each(function(){
+		var bhuTitle = $(this).find('a font').text();
+		var newHref = $(this).find('a').attr('href');
+		newHref = newHref.replace("≀","&");
+		newHref = newHref.replace("id","wr_id");
+		newHref = newHref.replace("..",".");
+		var bhuUrl = "http://www.bhu.co.kr"+ newHref;
+	 	
+			request(bhuUrl, function(err, res, body){
+				if(!err && res.statusCode == 200) {
+				var $ = cheerio.load(body);
+				var comments = [];
+				var image_url = [];
+
+				$('span div img').each(function(){
+					var img_url = $(this).attr('src');
+					image_url.push(img_url);	
+				})
+				// scrape all the images for the post
+				
+					$("[style *= 'line-height: 180%']").each(function(){
+						var content =  $(this).text();
+							comments.push({content: content}); 	
+					})//scrape all the comments for the post
+
+					comments.splice(0,1)
+
+			postModel.find({title: bhuTitle}, function(err, newPosts){
 				
 				if (!newPosts.length){
 					//save data in Mongodb
 
 					var Post = new postModel({
-						title: issueTitle,
-						url: issueUrl,
-						image_url: image_url
-					
+						title: bhuTitle,
+						url: bhuUrl,
+						image_url: image_url,
+						comments: comments
 					})
 			Post.save(function(error){
 					if(error){
@@ -328,3 +465,4 @@ request('http://issuein.com/', function(err, res, body){
 	}//첫 if구문
 
 });
+*/

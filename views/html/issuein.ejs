@@ -1,0 +1,103 @@
+<!-- views/issuein.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>하즐 - 하루의 즐거움</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="imagetoolbar" content="no" />
+    <meta name="naver-site-verification" content="8672f68ec19974757430dcc41aa887462bd2a8c5"/>
+    <meta name="google-site-verification" content="UFlAZBpLslwZH5RF8Z4WSu6fiCM-MXNzOvcLsyDh2_Y" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name='keyword' content="하루, 즐거움, 짤, hazzul, 웃긴">
+    <meta name="description" content="하루를 유쾌하게 보낼 수 있게 재밌는 이미지와 짤이 모여있는 플랫폼">
+
+    
+    <!--call the css file -->
+    <link rel='stylesheet' href='/css/hazzulMain.css'>
+</head>
+
+<body>
+  <div class="col-sm-12 col-md-12 affix-content">
+    <div class="container">
+      
+    <header>
+      <h1><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;Hazzul </h1>
+    </header></br>
+
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">하즐 </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="#">하즐 소개</a></li>
+        <li><a href="#">이슈인</a></li>
+        <li><a href="/free_board">루리웹</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav></br>
+
+           <!-- LOCAL INFORMATION -->
+            <div class="row">
+
+       <% for(var i = issuepostModels.length-1; i > -1 ; i--) { %>
+            <a class="thumbnail" href="/issuein/<%= issuepostModels[i].id %>">
+
+                <img class="img-responsive" src="<%= issuepostModels[i].img_url[0] || issuepostModels[i].img_url[1] %>" alt="이미지 로딩중..."></br>
+                <div class="text-center">
+                  <h5><%= issuepostModels[i].title %></h5>
+                  <h7><%= issuepostModels[i].posted.toLocaleDateString() %></h7>
+                </div>
+            </a>
+       <% }%>
+</div>
+<% if (pageCount > 1) { %>  
+<ul class="pagination">  
+  <% if (currentPage > 1) { %>
+      <li><a href="/issuein/?page=1">&laquo;</a></li>
+  <% } %>
+  <% var i = 1;
+  if (currentPage > 5) {
+  i = +currentPage - 4;
+  } %>
+  <% if (i !== 1) { %>
+      <li class="disabled"><a href="#">...</a></li>
+  <% } %>
+  <% for (i; i<=pageCount; i++) { %>
+    <% if (currentPage == i) { %>
+        <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
+    <% } else { %>
+        <li><a href="/issuein/?page=<%= i %>"><%= i %></a></li>
+    <% } %>
+    <% if (i == (currentPage + 4)) { %>
+        <li class="disabled"><a href="#">...</a></li>
+    <% break; } %>
+  <% } %>
+  <% if (currentPage != pageCount) { %>
+      <li><a href="/issuein/?page=<%= pageCount %>">&raquo;</a></li>
+  <% } %>
+</ul>  
+<% } %> 
+
+</div>
+</div>
+
+
+
+</body>
+</html>

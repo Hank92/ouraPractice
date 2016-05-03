@@ -1,0 +1,82 @@
+  <!doctype html>
+<html>
+<head>
+    <title>하즐 - 하루의 즐거움</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="imagetoolbar" content="no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name='keyword' content="하루, 즐거움, 짤, hazzul, 웃긴">
+    <link rel='stylesheet' href='/css/individualHazzulMain.css'>
+</head>
+
+<body>
+
+ <div class="col-sm-12 col-md-12 affix-content">
+    <div class="container">
+      
+    <header>
+      <h2><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;<%= issuepostModel.title %></h2>
+    </header>
+    </br>
+    <div class ="thumbnail">
+    </br>
+    <% for( var i = 0; i < issuepostModel.img_url.length; i++ ) { %> 
+         <img src = "<%= issuepostModel.img_url[i] %>" alt = "이미지 로딩중.." class="img-responsive">     
+         </br></br>   
+         <% }%> 
+        출처: <%= issuepostModel.url %>
+    </div>
+    </div></div>
+
+
+ <div class="container">
+<div class="row">
+<div class="col-sm-12">
+<div class="comments-list">
+
+<div class="panel panel-primary" >
+<div class="panel-heading"><font size = "5">댓글 달기</font></div>
+        <div class ="panel-body">
+<form role="form" method="post" action="/<%= issuepostModel.id %>/post/Issue"> <!--This was the main issue!! get the id of the postmodel and pass it when I post something-->
+    <div class="form-group">
+      <textarea class="form-control" type = "text" name="userPost" placeholder="댓글 달아주세요" rows="3" id="comment"></textarea>
+    </div>
+    <button type="submit" class="btn btn-info" style ="float:right">댓글 달기</button>
+  </form>
+        </div>
+  </div>
+
+<div class="panel panel-primary">
+<div class="panel-heading"><font size = "5">댓글 <%= issuepostModel.comments.length + issuepostModel.userComments.length %></font></div>
+  <div class="panel-body">
+    
+  <% for( var i = 0; i < issuepostModel.userComments.length; i++ ) { %>
+  <div class ="media">
+            <p><font size ="5" color = "#FFFFFF"><%= issuepostModel.userComments[issuepostModel.userComments.length-i-1].userPost %></font></p>
+</div>
+<% }%>
+
+  <% for( var i = 0; i < issuepostModel.comments.length; i++ ) { %>
+    <div class ="media">
+           <p>   <font size ="5" color="#FFFFFF"><%= issuepostModel.comments[i].content %></p>
+              </font>
+            </div>
+   <% } %>      
+
+</div>
+</div>
+            
+</div>
+</div>
+</div>               
+</div>
+</br>   
+                    
+       
+</body>
+
+</html>
