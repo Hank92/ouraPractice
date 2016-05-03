@@ -38,6 +38,7 @@
                 <img class="img-responsive" src="<%= postModels[i].image_url[0] %>" alt="이미지 로딩중..."></br>
                 <div class="text-center">
                   <h5><%= postModels[i].title %></h5>
+                  <h7><%= postModels[i].posted.toLocaleDateString() %></h7>
                 </div>
             </a>
        <% }%>

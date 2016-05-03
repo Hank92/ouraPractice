@@ -2,6 +2,7 @@
   .affix-content .container {
     width: 1000px;
     overflow: auto;
+    padding-top :70px;
   }   
 
   html,body{
@@ -74,12 +75,12 @@ h7 {
   color:rgb(102, 189, 221);
 }
 
-  .thumbnail { background-color: #404040; float:left; padding : 1%; width:200px; height:auto; overflow: hidden; }
+  .thumbnail { background-color: #484848   ; float:left; padding : 1%; width:200px; height:auto; overflow: hidden; }
 .thumbnail img {height:auto; width:100%; margin:10 auto; }
 
 .thumbnail {
    width: 160px;
-   height: 190px;
+   height: 210px;
    overflow: auto;
    margin: 20px;
  }
