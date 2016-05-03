@@ -139,6 +139,138 @@ request('http://bhu.co.kr/bbs/board.php?bo_table=best&page=1', function(err, res
 
 });
 
+request('http://bbs2.ruliweb.daum.net/gaia/do/ruliweb/default/etc/2078/list?bbsId=G005&pageIndex=1&itemId=143&objCate1=497', function(err, res, body){
+	
+	if(!err && res.statusCode == 200) {
+		
+		var $ = cheerio.load(body);
+		$('td.subject').each(function(){
+		var ruliTitle = $(this).find('a').text();
+		var newHref = $(this).find('a').attr('href');
+		newHref = newHref.replace("/list?bbsId=G005&pageIndex=1&itemId=143&objCate1=497",newHref);
+		var ruliUrl = "http://bbs2.ruliweb.daum.net/gaia/do/ruliweb/default/etc/2078/"+ newHref;
+	 	
+			request(ruliUrl, function(err, res, body){
+				if(!err && res.statusCode == 200) {
+				var $ = cheerio.load(body);
+				var comments = [];
+				var image_url = [];
+
+				$('.read_cont_table p').each(function(){
+					var img_url = $(this).find('img').attr('src');
+					image_url.push(img_url);	
+				})
+				// scrape all the images for the post
+				
+					$("table td.cont").each(function(){
+						var content =  $(this).text();
+							comments.push({content: content}); 	
+					})//scrape all the comments for the post
+
+
+			postModel.find({title: ruliTitle}, function(err, newPosts){
+				
+				if (!newPosts.length){
+					//save data in Mongodb
+
+					var Post = new postModel({
+						title: ruliTitle,
+						url: ruliUrl,
+						image_url: image_url,
+						comments: comments
+					})
+			Post.save(function(error){
+					if(error){
+						console.log(error);
+					}
+					else 
+						console.log(Post);
+				})
+
+			//post.save
+				}//if bhuTitle안에 있는 {}
+
+			})//postModel.find
+			
+
+			}//if문
+
+			})//request
+
+			
+		});
+		
+	}//첫 if구문
+
+});
+
+
+/*
+request('http://www.ppomppu.co.kr/zboard/zboard.php?id=humor', function(err, res, body){
+	
+	if(!err && res.statusCode == 200) {
+		
+		var $ = cheerio.load(body);
+		$('td.list_vspace').each(function(){
+		var ppompuTitle = $(this).find('a font').text();
+		var newHref = $(this).find('a').attr('href');
+		var ppompuUrl = "http://www.ppomppu.co.kr/zboard/"+ newHref;
+	 	
+	 	console.log(ppomppuTitle);
+	 	console.log(ppomppuUrl);
+			request(ppompuUrl, function(err, res, body){
+				if(!err && res.statusCode == 200) {
+				var $ = cheerio.load(body);
+				var comments = [];
+				var image_url = [];
+
+				$('#realArticleView p img').each(function(){
+					var img_url = $(this).attr('src');
+					image_url.push(img_url);	
+				})
+				// scrape all the images for the post
+				
+					$(".han").each(function(){
+						var content =  $(this).text();
+							comments.push({content: content}); 	
+					})//scrape all the comments for the post
+
+			postModel.find({title: ppompuTitle}, function(err, newPosts){
+				
+				if (!newPosts.length){
+					//save data in Mongodb
+
+					var Post = new postModel({
+						title: ppompuTitle,
+						url: ppompuUrl,
+						image_url: image_url,
+						comments: comments
+					})
+			Post.save(function(error){
+					if(error){
+						console.log(error);
+					}
+					else 
+						console.log(Post);
+				})
+
+			//post.save
+				}//if bhuTitle안에 있는 {}
+
+			})//postModel.find
+			
+
+			}//if문
+
+			})//request
+
+			
+		});
+		
+	}//첫 if구문
+
+});
+*/
 request('http://issuein.com/', function(err, res, body){
 	
 	if(!err && res.statusCode == 200) {
