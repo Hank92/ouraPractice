@@ -26,7 +26,34 @@
       
     <header>
       <h1><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;Hazzul </h1>
-    </header>
+    </header></br>
+
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">하즐 </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="#">하즐 소개</a></li>
+        <li><a href="/humor_board">bhu</a></li>
+        <li><a href="/free_board">이슈인</a></li>
+        <li><a href="/free_board">루리웹</a></li>
+        <li><a href="/free_board">뽐뿌인</a></li>
+        <li><a href="/free_board">웃대</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav></br>
 
    
            <!-- LOCAL INFORMATION -->
@@ -35,7 +62,7 @@
        <% for(var i = postModels.length-1; i > -1 ; i--) { %>
             <a class="thumbnail" href="/<%= postModels[i].id %>">
 
-                <img class="img-responsive" src="<%= postModels[i].image_url[0] %>" alt="이미지 로딩중..."></br>
+                <img class="img-responsive" src="<%= postModels[i].image_url[0] || postModels[i].image_url[1] || postModels[i].image_url[2] || postModels[i].image_url[3] || postModels[i].image_url[4] || postModels[i].image_url[5] || postModels[i].image_url[6] %>" alt="이미지 로딩중..."></br>
                 <div class="text-center">
                   <h5><%= postModels[i].title %></h5>
                   <h7><%= postModels[i].posted.toLocaleDateString() %></h7>
