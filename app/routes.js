@@ -23,61 +23,13 @@ app.param('id', function(req, res, next, id){
 			});	
 });
 
-app.get('/:id', function(req, res){
-	postModel.find({_id: req.params.id}, function(err, docs){
-		if(err) res.json(err);
-		else    res.render('individualhazzulMain.ejs', {postModel: docs[0]});
-	})
-	
-	console.log(docs[0])//finds the matching object
-});
-
-/*
-
-app.param('id', function(req, res, next, id){
-	postModel.findById(id, function(err, docs){
-		if(err) res.json(err);
-		else
-			{
-				req.postId = docs;
-				next();
-			}
-			});	
-});
-*/
 app.get('/issuein/:id', function(req, res){
 	var postId = req.postId;
-	res.render('individualissueIn.ejs', {issuepostModel: postId});
+	res.render('individualIssueIn.ejs', {issuepostModel: postId});
 	console.log(postId)//finds the matching object
 });
-/*
-//post a comment on humor board
-app.post('/:id/post', function (req, res){
-	postModel.find({_id: req.params.id}, function(err, item){
-		if(err) return next("error finding blog post.");
-		item[0].userComments.push({userPost : req.body.userPost})
-		item[0].save(function(err, data){
-			if (err) res.send(err)
-			else 
-				res.redirect('/' + req.params.id )
-		});
-	})
 
-}) //app.post  
-*/
-app.post('/:id/post/Issue', function (req, res){
-	issueModel.find({_id: req.params.id}, function(err, item){
-		if(err) return next("error finding blog post.");
-		item[0].userComments.push({userPost : req.body.userPost})
-		item[0].save(function(err, data){
-			if (err) res.send(err)
-			else 
-				res.redirect('/issuein/'+req.params.id )
-		});
-	})
 
-}) //app.post  
-/*
 app.get('/', function (req, res){
 
 	var currentPage = 1;
@@ -106,7 +58,7 @@ app.get('/', function (req, res){
      });//paginate
 	
 });
-*/
+
 
 
 app.get('/issuein', function (req, res){
@@ -138,8 +90,54 @@ app.get('/issuein', function (req, res){
 	
 });
 
+
+app.param('id', function(req, res, next, id){
+	postModel.findById(id, function(err, docs){
+		if(err) res.json(err);
+		else
+			{
+				req.mainpostId = docs;
+				next();
+			}
+			});	
+});
+
+app.get('/:id', function(req, res){
+	   res.render('individualhazzulMain.ejs', {postModel: req.mainpostId});
+	})
+	
+	//finds the matching object
+
+
+app.post('/:id/post/Issue', function (req, res){
+	issueModel.find({_id: req.params.id}, function(err, item){
+		if(err) return next("error finding blog post.");
+		item[0].userComments.push({userPost : req.body.userPost})
+		item[0].save(function(err, data){
+			if (err) res.send(err)
+			else 
+				res.redirect('/issuein/'+req.params.id )
+		});
+	})
+
+}) //app.post  
+
+//post a comment on humor board
+app.post('/:id/post', function (req, res){
+	postModel.find({_id: req.params.id}, function(err, item){
+		if(err) return next("error finding blog post.");
+		item[0].userComments.push({userPost : req.body.userPost})
+		item[0].save(function(err, data){
+			if (err) res.send(err)
+			else 
+				res.redirect('/' + req.params.id )
+		});
+	})
+
+}) //app.post  
+
 };
-/*
+
 request('http://bhu.co.kr/bbs/board.php?bo_table=best&page=1', function(err, res, body){
 	
 	if(!err && res.statusCode == 200) {
@@ -397,7 +395,7 @@ request('http://issuein.com/', function(err, res, body){
 
 });
 
-/*
+
 request('http://bhu.co.kr/bbs/board.php?bo_table=free', function(err, res, body){
 	
 	if(!err && res.statusCode == 200) {
@@ -465,4 +463,3 @@ request('http://bhu.co.kr/bbs/board.php?bo_table=free', function(err, res, body)
 	}//첫 if구문
 
 });
-*/
