@@ -11,24 +11,6 @@ var ruliModel = require('../app/models/ruliWeb');
 
 module.exports = function (app, passport){
 
-
-app.param('id', function(req, res, next, id){
-	issueModel.findById(id, function(err, docs){
-		if(err) res.json(err);
-		else
-			{
-				req.postId = docs;
-				next();
-			}
-			});	
-});
-
-app.get('/issuein/:id', function(req, res){
-	var postId = req.postId;
-	res.render('individualIssueIn.ejs', {issuepostModel: postId});
-	console.log(postId)//finds the matching object
-});
-
 app.get('/about', function (req, res){
 	res.render('about.ejs');
 })
@@ -93,6 +75,24 @@ app.get('/issuein', function (req, res){
 	
 });
 
+
+
+app.param('id', function(req, res, next, id){
+	issueModel.findById(id, function(err, docs){
+		if(err) res.json(err);
+		else
+			{
+				req.postId = docs;
+				next();
+			}
+			});	
+});
+
+app.get('/issuein/:id', function(req, res){
+	var postId = req.postId;
+	res.render('individualIssueIn.ejs', {issuepostModel: postId});
+	console.log(postId)//finds the matching object
+});
 
 app.param('id', function(req, res, next, id){
 	postModel.findById(id, function(err, docs){
