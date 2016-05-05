@@ -106,7 +106,7 @@ app.param('id', function(req, res, next, id){
 });
 
 app.get('/:id', function(req, res){
-	   res.render('individualhazzulMain.ejs', {postModel: req.mainpostId});
+	   res.render('individualHazzulMain.ejs', {postModel: req.mainpostId});
 	})
 	
 	//finds the matching object
