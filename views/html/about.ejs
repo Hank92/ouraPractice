@@ -1,4 +1,4 @@
-<!-- views/issuein.ejs -->
+<!-- views/about.ejs -->
 <!doctype html>
 <html>
 <head>
@@ -25,7 +25,7 @@
     <div class="container">
       
     <header>
-      <h1><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;Hazzul <font size = "5"> & issuein</font> </h1>
+      <h1><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;Hazzul </h1>
     </header></br>
 
     <nav class="navbar navbar-default navbar-inverse" role="navigation">
@@ -44,60 +44,14 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="/about">하즐 소개</a></li>
-        <li><a href="#">이슈인</a></li>
+        <li><a href="#">하즐 소개</a></li>
+        <li><a href="/issuein">이슈인</a></li>
         <li><a href="/free_board">루리웹</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav></br>
 
-           <!-- LOCAL INFORMATION -->
-            <div class="row">
-
-       <% for(var i = issuepostModels.length-1; i > -1 ; i--) { %>
-            <a class="thumbnail" href="/issuein/<%= issuepostModels[i].id %>">
-
-                <img class="img-responsive" src="<%= issuepostModels[i].img_url[0] || issuepostModels[i].img_url[1] %>" alt="이미지 로딩중..."></br>
-                <div class="text-center">
-                  <h5><%= issuepostModels[i].title %></h5>
-                  <h7><%= issuepostModels[i].posted.toLocaleDateString() %></h7>
-                </div>
-            </a>
-       <% }%>
-</div>
-<% if (pageCount > 1) { %>  
-<ul class="pagination">  
-  <% if (currentPage > 1) { %>
-      <li><a href="/issuein/?page=1">&laquo;</a></li>
-  <% } %>
-  <% var i = 1;
-  if (currentPage > 5) {
-  i = +currentPage - 4;
-  } %>
-  <% if (i !== 1) { %>
-      <li class="disabled"><a href="#">...</a></li>
-  <% } %>
-  <% for (i; i<=pageCount; i++) { %>
-    <% if (currentPage == i) { %>
-        <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
-    <% } else { %>
-        <li><a href="/issuein/?page=<%= i %>"><%= i %></a></li>
-    <% } %>
-    <% if (i == (currentPage + 4)) { %>
-        <li class="disabled"><a href="#">...</a></li>
-    <% break; } %>
-  <% } %>
-  <% if (currentPage != pageCount) { %>
-      <li><a href="/issuein/?page=<%= pageCount %>">&raquo;</a></li>
-  <% } %>
-</ul>  
-<% } %> 
-
-</div>
-</div>
-
-
-
-</body>
-</html>
+<h2>하즐 소개 </h2>
+</br>
+<p>하즐은 여러개의 유머 사이트에 있는 재밌는 게시물을 전시하는 플랫폼입니다 </p>

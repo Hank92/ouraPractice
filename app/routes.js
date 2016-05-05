@@ -29,6 +29,9 @@ app.get('/issuein/:id', function(req, res){
 	console.log(postId)//finds the matching object
 });
 
+app.get('/about', function (req, res){
+	res.render('about.ejs');
+})
 
 app.get('/', function (req, res){
 

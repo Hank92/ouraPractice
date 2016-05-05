@@ -75,6 +75,16 @@ h7 {
   color:rgb(102, 189, 221);
 }
 
+h2 {
+  color:rgb(102, 189, 221);
+}
+
+p {
+  color:rgb(102, 189, 221);
+}
+
+
+
   .thumbnail { background-color: #484848   ; float:left; padding : 1%; width:200px; height:auto; overflow: hidden; }
 .thumbnail img {height:auto; width:100%; margin:10 auto; }
 
