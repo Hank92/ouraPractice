@@ -1,0 +1,14 @@
+<% for(var i = postModels.length-1; i > -1 ; i--) { %>
+    
+          
+                  <h5><%= postModels[i].title %></h5>
+                  <h5><%= postModels[i].url %></h5>
+                  
+<a href = "/issueindelete/<%= postModels[i].id%>/delete">delete</a>
+
+
+                </div>
+
+            </a>
+
+       <% }%>

@@ -19,18 +19,16 @@
     <div class="container">
       
     <header>
-      <h2><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;<%= postModel.title %></h2>
+      <h2><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;<%= issuetodaypostModel.title %></h2>
     </header>
     </br>
     <div class ="thumbnail">
     </br>
-    <% for( var i = 0; i < postModel.image_url.length; i++ ) { %> 
-      
-            <img src = "<%= postModel.image_url[i] %>" alt = "이미지 로딩중.." class="img-responsive">
-          
+    <% for( var i = 0; i < issuetodaypostModel.image_url.length; i++ ) { %> 
+         <img src = "<%= issuetodaypostModel.image_url[i] %>" alt = "이미지 로딩중.." class="img-responsive">     
          </br></br>   
          <% }%> 
-        출처: <%= postModel.url %>
+        출처: <%= issuetodaypostModel.url %>
     </div>
     </div></div>
 
@@ -43,7 +41,7 @@
 <div class="panel panel-primary" >
 <div class="panel-heading"><font size = "5">댓글 달기</font></div>
         <div class ="panel-body">
-<form role="form" method="post" action="/<%= postModel.id %>/post"> <!--This was the main issue!! get the id of the postmodel and pass it when I post something-->
+<form role="form" method="post" action="/<%= issuetodaypostModel.id %>/post/Issue"> <!--This was the main issue!! get the id of the postmodel and pass it when I post something-->
     <div class="form-group">
       <textarea class="form-control" type = "text" name="userPost" placeholder="댓글 달아주세요" rows="3" id="comment"></textarea>
     </div>
@@ -53,21 +51,15 @@
   </div>
 
 <div class="panel panel-primary">
-<div class="panel-heading"><font size = "5">댓글 <%= postModel.comments.length + postModel.userComments.length %></font></div>
+<div class="panel-heading"><font size = "5">댓글 <%= issuetodaypostModel.userComments.length %></font></div>
   <div class="panel-body">
     
-  <% for( var i = 0; i < postModel.userComments.length; i++ ) { %>
+  <% for( var i = 0; i < issuetodaypostModel.userComments.length; i++ ) { %>
   <div class ="media">
-            <p><font size ="5" color = "#FFFFFF"><%= postModel.userComments[postModel.userComments.length-i-1].userPost %></font></p>
+            <p><font size ="5" color = "#FFFFFF"><%= issuetodaypostModel.userComments[issuetodaypostModel.userComments.length-i-1].userPost %></font></p>
 </div>
 <% }%>
-
-  <% for( var i = 0; i < postModel.comments.length; i++ ) { %>
-    <div class ="media">
-           <p>   <font size ="5" color="#FFFFFF"><%= postModel.comments[i].content %></p>
-              </font>
-            </div>
-   <% } %>      
+    
 
 </div>
 </div>
