@@ -7,7 +7,7 @@ var	methodOverride = require('method-override');
 
 var postModel = require('../app/models/post');
 var issueModel = require('../app/models/issuePost');
-var ruliModel = require('../app/models/ruliWeb');
+var issuetodayModel = require('../app/models/issuetoday');
 
 module.exports = function (app, passport){
 
@@ -44,6 +44,22 @@ app.get('/', function (req, res){
 	
 });
 
+
+app.get('/issuetodaydelete', function (req, res){
+	issuetodayModel.find({}, function(req, docs){
+		res.render('issuetodaydelete.ejs', {postModels: docs})	
+	})
+	
+})
+
+
+app.get('/issuetodaydelete/:id/delete', function(req, res){
+	issuetodayModel.remove({_id: req.params.id}, 
+	   function(err){
+		if(err) res.json(err);
+		else    res.redirect('/issuetodaydelete');
+	});
+});
 
 
 app.get('/issuein', function (req, res){
@@ -139,6 +155,8 @@ app.post('/:id/post', function (req, res){
 
 }) //app.post  
 
+
+
 };
 
 request('http://bhu.co.kr/bbs/board.php?bo_table=best&page=1', function(err, res, body){
@@ -183,6 +201,69 @@ request('http://bhu.co.kr/bbs/board.php?bo_table=best&page=1', function(err, res
 						url: bhuUrl,
 						image_url: image_url,
 						comments: comments
+					})
+			Post.save(function(error){
+					if(error){
+						console.log(error);
+					}
+					else 
+						console.log(Post);
+				})
+
+			//post.save
+				}//if bhuTitle안에 있는 {}
+
+			})//postModel.find
+			
+
+			}//if문
+
+			})//request
+
+			
+		});
+		
+	}//첫 if구문
+
+});
+
+request('http://issuetodays.me/bbs/board.php?bo_table=humor', function(err, res, body){
+	
+	if(!err && res.statusCode == 200) {
+		
+		var $ = cheerio.load(body);
+		$('li.gall_li').each(function(){
+		var issuetodayTitle = $(this).find('a').text();
+		var issuetodayUrl = $(this).find('a').attr('href');
+		
+	 	
+			request(issuetodayUrl, function(err, res, body){
+				if(!err && res.statusCode == 200) {
+				var $ = cheerio.load(body);
+		
+				var image_url = [];
+
+					$("#bo_v_atc a img").each(function(){
+						var img_url = $(this).attr('src');
+							image_url.push(img_url);	
+					})// scrape all the images for the post
+
+
+					$("#bo_v_atc [style *= 'text-align:center;']").each(function(){
+						var img_url = $(this).find('img').attr('src');
+							image_url.push(img_url);	
+					})// scrape all the images for the post
+					
+
+			issuetodayModel.find({title: issuetodayTitle}, function(err, newPosts){
+				
+				if (!newPosts.length){
+					//save data in Mongodb
+
+					var Post = new issuetodayModel({
+						title: issuetodayTitle,
+						url: issuetodayUrl,
+						image_url: image_url
 					})
 			Post.save(function(error){
 					if(error){
